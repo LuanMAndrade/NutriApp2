@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">NutriApp</string>
+    <string name="title_activity_first_access">FirstAccess</string>
+</resources>
