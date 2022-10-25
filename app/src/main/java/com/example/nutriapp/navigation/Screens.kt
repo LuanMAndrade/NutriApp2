@@ -16,6 +16,8 @@ sealed class Screens(val route : String){
 
     object CadastroUsuario: Screens("cadastro_usuario")
 
+    object Treino: Screens("treino")
+
     fun withArgs(vararg args : String) : String{
         return buildString {
             append(route)

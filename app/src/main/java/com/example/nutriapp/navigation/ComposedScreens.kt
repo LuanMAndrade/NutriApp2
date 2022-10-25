@@ -1,10 +1,15 @@
 package com.example.nutriapp.navigation
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -13,21 +18,22 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.core.app.NotificationCompat.MessagingStyle.Message
 import androidx.navigation.NavController
-import com.example.nutriapp.database.NutriDatabase
-import com.example.nutriapp.database.entities.Usuario
+import com.example.nutriapp.ui.activity.R
+import com.example.nutriapp.ui.activity.ui.theme.NutriAppTheme
 import com.example.nutriapp.ui.objects.CircularProgressBar
-import kotlinx.coroutines.launch
 
 @Composable
 fun Login(navController: NavController) {
@@ -45,7 +51,7 @@ fun Login(navController: NavController) {
 
         TextField(value = text1, onValueChange = { text1 = it })
         TextField(value = text2, onValueChange = { text2 = it })
-        Button(onClick = { navController.navigate(Screens.DietChose.route) }) {
+        Button(onClick = { navController.navigate(Screens.Treino.route) }) {
             Text(text = "Entrar")
 
         }
@@ -60,9 +66,6 @@ fun Login(navController: NavController) {
 @Composable
 fun CadastroUsuario(context: Context,navController: NavController) {
 
-    val usuarioDao by lazy {
-        NutriDatabase.getInstance(context).usuarioDao
-    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -82,12 +85,6 @@ fun CadastroUsuario(context: Context,navController: NavController) {
         TextField(value = nome, onValueChange = { nome = it })
         TextField(value = senha, onValueChange = { senha = it })
         Button(onClick = {
-            val usuarioNovo = Usuario(
-                login,
-                nome,
-                senha)
-            lifecycleScope
-//                .launch { usuarioDao.insert(usuarioNovo) }
 
             navController.navigate(Screens.Login.route) }) {
             Text(text = "Salvar")
@@ -381,7 +378,6 @@ fun MainScreen(navController: NavController, context: Context) {
 
 @Composable
 fun EditRef(context: Context) {
-//    val database by lazy { NutriDatabase.getInstance(context).usuarioDao}
 
     var text1 by remember {
         mutableStateOf("")
@@ -405,5 +401,59 @@ fun EditRef(context: Context) {
 
         }
 
+    }
+}
+
+@Composable
+fun MessageCard (texto : String){
+    NutriAppTheme() {
+        Surface(Modifier.fillMaxSize()) {
+
+            Row(Modifier.padding(8.dp)) {
+
+                Image(painter = painterResource(id = R.drawable.profile_picture),
+                    contentDescription ="picture",
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(60.dp)
+                        .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape)
+                )
+
+                Spacer(modifier = Modifier.width(10.dp))
+                Column() {
+                    Text(text = "Luiza", color = MaterialTheme.colors.secondaryVariant)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(text = texto)
+
+                }
+            }
+        }
+
+    }
+
+    
+}
+
+
+@Composable
+fun ListaMensagens(mensagens : List<String>){
+    LazyColumn {
+        items(mensagens){ mensagem ->
+            MessageCard(texto = mensagem)
+
+
+
+        }
+    }
+
+
+}
+
+@Preview
+@Composable
+fun PreviewlistaMensagens(){
+    NutriAppTheme {
+        ListaMensagens(mensagens = SampleData.conversationSample)
+        
     }
 }
