@@ -32,9 +32,6 @@ fun Navigate(){
         composable(route = Screens.CadastroUsuario.route){
             CadastroUsuario(context = LocalContext.current,navController)
         }
-        composable(route = Screens.Treino.route){
-            Treino()
-        }
 
 
     }

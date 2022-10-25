@@ -51,7 +51,7 @@ fun Login(navController: NavController) {
 
         TextField(value = text1, onValueChange = { text1 = it })
         TextField(value = text2, onValueChange = { text2 = it })
-        Button(onClick = { navController.navigate(Screens.Treino.route) }) {
+        Button(onClick = { navController.navigate(Screens.DietChose.route) }) {
             Text(text = "Entrar")
 
         }

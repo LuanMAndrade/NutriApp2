@@ -1,8 +1,7 @@
-import androidx.compose.material.Text
-import java.text.MessageFormat
+package com.example.nutriapp.ui.objects
 
 /**
- * SampleData for Jetpack Compose Tutorial 
+ * SampleData for Jetpack Compose Tutorial
  */
 object SampleData {
     // Sample conversation data
