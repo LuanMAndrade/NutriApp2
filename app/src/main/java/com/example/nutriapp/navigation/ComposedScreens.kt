@@ -51,7 +51,7 @@ fun Login(navController: NavController) {
 
         TextField(value = text1, onValueChange = { text1 = it })
         TextField(value = text2, onValueChange = { text2 = it })
-        Button(onClick = { navController.navigate(Screens.Treino.route) }) {
+        Button(onClick = { navController.navigate(Screens.DietChose.route) }) {
             Text(text = "Entrar")
 
         }
@@ -420,10 +420,14 @@ fun MessageCard (texto : String){
                 )
 
                 Spacer(modifier = Modifier.width(10.dp))
-                Column() {
+
+                var expanded by remember {
+                    mutableStateOf(false)
+                }
+                Column(Modifier.clickable { expanded = !expanded }) {
                     Text(text = "Luiza", color = MaterialTheme.colors.secondaryVariant)
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = texto)
+                    Text(text = texto, maxLines = if (expanded) Int.MAX_VALUE else 1 )
 
                 }
             }
