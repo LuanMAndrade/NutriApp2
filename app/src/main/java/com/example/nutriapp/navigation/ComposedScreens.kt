@@ -426,10 +426,14 @@ fun MessageCard (texto : String){
                 )
 
                 Spacer(modifier = Modifier.width(10.dp))
-                Column() {
+
+                var expanded by remember {
+                    mutableStateOf(false)
+                }
+                Column(Modifier.clickable { expanded = !expanded }) {
                     Text(text = "Luiza", color = MaterialTheme.colors.secondaryVariant)
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = texto)
+                    Text(text = texto, maxLines = if (expanded) Int.MAX_VALUE else 1 )
 
                 }
             }
@@ -453,13 +457,4 @@ fun ListaMensagens(mensagens : List<String>){
     }
 
 
-}
-
-@Preview
-@Composable
-fun PreviewlistaMensagens(){
-    NutriAppTheme {
-        ListaMensagens(mensagens = SampleData.conversationSample)
-        
-    }
 }

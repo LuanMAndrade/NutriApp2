@@ -41,6 +41,5 @@ fun Navigate(salvar : (Usuario) -> Unit){
             CadastroUsuario(context = LocalContext.current,navController)
         }
 
-
     }
 }
