@@ -2,12 +2,18 @@ package com.example.nutriapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.nutriapp.database.AppDatabase
+import com.example.nutriapp.database.entities.Usuario
+import kotlinx.coroutines.launch
+
+
 
 @Composable
-fun Navigate(){
+fun Navigate(salvar : (Usuario) -> Unit){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screens.Login.route){
         composable(route = Screens.DietChose.route){
@@ -21,7 +27,9 @@ fun Navigate(){
             CaloriesChose(LocalContext.current)
         }
         composable(route = Screens.EditRef.route){
-            EditRef(LocalContext.current)
+            EditRef(){
+               salvar
+            }
         }
         composable(route = Screens.MainScreen.route){
             MainScreen(navController, context = LocalContext.current)

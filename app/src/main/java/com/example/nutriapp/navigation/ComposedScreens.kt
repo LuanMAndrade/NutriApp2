@@ -31,9 +31,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.app.NotificationCompat.MessagingStyle.Message
 import androidx.navigation.NavController
+import com.example.nutriapp.database.entities.Usuario
 import com.example.nutriapp.ui.activity.R
 import com.example.nutriapp.ui.activity.ui.theme.NutriAppTheme
 import com.example.nutriapp.ui.objects.CircularProgressBar
+
+
+
+
 
 @Composable
 fun Login(navController: NavController) {
@@ -377,7 +382,7 @@ fun MainScreen(navController: NavController, context: Context) {
 }
 
 @Composable
-fun EditRef(context: Context) {
+fun EditRef(salvar : (Usuario) -> Unit) {
 
     var text1 by remember {
         mutableStateOf("")
@@ -397,7 +402,8 @@ fun EditRef(context: Context) {
         TextField(value = text2, onValueChange = { text2 = it })
         TextField(value = text3, onValueChange = { text3 = it })
 
-        FloatingActionButton(onClick = { /*TODO*/ }) {
+        FloatingActionButton(onClick = { val usuarioNovo = Usuario( text1, text2, text3)
+        salvar(usuarioNovo)}) {
 
         }
 
