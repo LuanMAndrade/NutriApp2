@@ -2,6 +2,7 @@ package com.example.nutriapp.navigation
 
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -41,7 +42,7 @@ import com.example.nutriapp.ui.objects.CircularProgressBar
 
 
 @Composable
-fun Login(navController: NavController) {
+fun Login(navController: NavController, autenticar : (login : String, senha : String) -> Usuario?) {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -56,9 +57,12 @@ fun Login(navController: NavController) {
 
         TextField(value = text1, onValueChange = { text1 = it })
         TextField(value = text2, onValueChange = { text2 = it })
-        Button(onClick = { navController.navigate(Screens.DietChose.route) }) {
-            Text(text = "Entrar")
 
+        Button(onClick = { (autenticar(text1,text2))?.let{
+            navController.navigate(Screens.DietChose.route)
+        } ?: Log.i("teste", "Não foi")
+        }) {
+            Text(text = "Entrar")
         }
         Button(onClick = { navController.navigate(Screens.CadastroUsuario.route) }) {
             Text(text = "Cadastrar")
@@ -69,7 +73,7 @@ fun Login(navController: NavController) {
 }
 
 @Composable
-fun CadastroUsuario(context: Context,navController: NavController) {
+fun CadastroUsuario(navController: NavController, salvar: (Usuario) -> Unit) {
 
 
     Column(
@@ -90,7 +94,8 @@ fun CadastroUsuario(context: Context,navController: NavController) {
         TextField(value = nome, onValueChange = { nome = it })
         TextField(value = senha, onValueChange = { senha = it })
         Button(onClick = {
-
+            val usuarioNovo = Usuario(login, nome, senha)
+            salvar(usuarioNovo)
             navController.navigate(Screens.Login.route) }) {
             Text(text = "Salvar")
         }
@@ -434,27 +439,17 @@ fun MessageCard (texto : String){
                     Text(text = "Luiza", color = MaterialTheme.colors.secondaryVariant)
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(text = texto, maxLines = if (expanded) Int.MAX_VALUE else 1 )
-
                 }
             }
         }
-
     }
-
-    
 }
-
 
 @Composable
 fun ListaMensagens(mensagens : List<String>){
     LazyColumn {
         items(mensagens){ mensagem ->
             MessageCard(texto = mensagem)
-
-
-
         }
     }
-
-
 }

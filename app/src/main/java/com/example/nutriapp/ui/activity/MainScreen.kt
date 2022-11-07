@@ -25,10 +25,17 @@ class MainActivity : ComponentActivity() {
         setContent {
             NutriAppTheme {
                 Surface(Modifier.fillMaxSize()) {
-                    EditRef{
+                    Navigate(
+                        salvar = {
                         lifecycleScope.launch {launch {   usuarioDao.insert(it)} }
-                    }
+                    },
+                        autenticar = {
+                            login, senha -> var bollean = false
+                        lifecycleScope.launch {bollean = usuarioDao.autentica(login, senha) }
+                            bollean
+                    })
                 }
+
             }
         }
     }

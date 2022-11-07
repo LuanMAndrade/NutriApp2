@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun Navigate(salvar : (Usuario) -> Unit){
+fun Navigate(salvar : (Usuario) -> Unit, autenticar : (login: String, senha : String) -> Boolean){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screens.Login.route){
         composable(route = Screens.DietChose.route){
@@ -28,18 +28,21 @@ fun Navigate(salvar : (Usuario) -> Unit){
         }
         composable(route = Screens.EditRef.route){
             EditRef(){
-               salvar
+               salvar(it)
             }
         }
         composable(route = Screens.MainScreen.route){
             MainScreen(navController, context = LocalContext.current)
         }
         composable(route = Screens.Login.route){
-            Login(navController)
+            Login(navController){ login, senha ->
+                autenticar(login, senha)
+            }
         }
         composable(route = Screens.CadastroUsuario.route){
-            CadastroUsuario(context = LocalContext.current,navController)
+            CadastroUsuario(navController){
+                salvar(it)
+            }
         }
-
     }
 }
