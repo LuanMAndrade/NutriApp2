@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun Navigate(salvar : (Usuario) -> Unit, autenticar : (login: String, senha : String) -> Boolean){
+fun Navigate(salvar : (Usuario) -> Unit, autenticar : (login: String, senha : String) -> Unit){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screens.Login.route){
         composable(route = Screens.DietChose.route){

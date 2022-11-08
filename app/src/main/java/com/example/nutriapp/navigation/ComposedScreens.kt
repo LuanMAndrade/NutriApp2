@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.app.NotificationCompat.MessagingStyle.Message
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.navigation.NavController
 import com.example.nutriapp.database.entities.Usuario
 import com.example.nutriapp.ui.activity.R
@@ -42,7 +43,7 @@ import com.example.nutriapp.ui.objects.CircularProgressBar
 
 
 @Composable
-fun Login(navController: NavController, autenticar : (login : String, senha : String) -> Usuario?) {
+fun Login(navController: NavController, autenticar : (login : String, senha : String) -> Unit) {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -58,9 +59,12 @@ fun Login(navController: NavController, autenticar : (login : String, senha : St
         TextField(value = text1, onValueChange = { text1 = it })
         TextField(value = text2, onValueChange = { text2 = it })
 
-        Button(onClick = { (autenticar(text1,text2))?.let{
-            navController.navigate(Screens.DietChose.route)
-        } ?: Log.i("teste", "Não foi")
+        Button(onClick = { (autenticar(text1,text2))
+            dataStore.data.collect { preferences ->
+                preferences[stringPreferencesKey("usuarioLogado")]?.let { usuarioId ->
+                    navController.navigate(Screens.CadastroUsuario.route)
+                    }}
+
         }) {
             Text(text = "Entrar")
         }

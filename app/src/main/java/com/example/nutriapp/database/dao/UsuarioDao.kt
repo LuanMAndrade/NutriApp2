@@ -12,7 +12,7 @@ interface UsuarioDao {
     @Insert(onConflict = REPLACE)
     suspend fun insert(usuario : Usuario)
 
-    @Query("SELECT * FROM Usuario WHERE login == :login & senha == :senha")
-    suspend fun autentica(login : String, senha : String) : Boolean
+    @Query("SELECT * FROM Usuario WHERE login = :login AND senha = :senha")
+    suspend fun autentica(login : String, senha : String) : Usuario?
 
 }
